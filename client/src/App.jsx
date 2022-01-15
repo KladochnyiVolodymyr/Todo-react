@@ -1,25 +1,29 @@
-import { Component } from "react";
+import React, { useEffect } from 'react';
 import api from "./api";
+import './App.css';
+import NewTodo from './components/NewTodo';
+import Todos from './components/Todos';
+const App = () => {
+  
+  useEffect(() => {
+    //api.todoList.fetchAll().then(res => console.log(res));
+  });
 
-class App extends Component {
-  componentDidMount() {
-    api.todoList.fetchAll().then(res => console.log(res));
-  }
-
-  addTodo = () =>
+  /* addTodo = () =>
     api.todoList.create(
       {
         'title':'title'
       }
       ).then(res => console.log(res));
+ */
 
-  render() {
-    return (
-      <h1>Hello from App.jsx
-        <p onClick={this.addTodo}>click</p>
-      </h1>
-    );
-  }
+  return (
+    <div className="app">
+      <h1>Todo List</h1>
+      <NewTodo/>
+      <Todos/>
+    </div>
+  );
 }
 
 export default App;
