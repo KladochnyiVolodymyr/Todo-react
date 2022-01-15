@@ -1,7 +1,5 @@
 import express from "express";
 import mongodb from "mongodb";
-import authenticate from "../middlewares/authenticate";
-import adminOnly from "../middlewares/adminOnly";
 import paginate from "../middlewares/paginate";
 
 const router = express.Router();
@@ -10,15 +8,6 @@ const validate = (data) => {
   const errors = {};
 
   if (!data.title) errors.title = "Title filed can't be blank";
-  if (!data.description)
-    errors.description = "Description filed can't be blank";
-  if (!data.price) errors.price = "Price filed can't be blank";
-  if (!data.director) errors.director = "Director filed can't be blank";
-  if (!data.duration) errors.duration = "Duration filed can't be blank";
-  if (!data.img) errors.img = "This field can't be blank";
-  if (data.price <= 0) errors.price = "Wrong price";
-  if (data.duration <= 0)
-    errors.duration = "Duration must be only positove value";
 
   return errors;
 };
@@ -28,61 +17,63 @@ router.get("/", paginate, async (req, res) => {
   const { startIndex, limit } = res.locals;
 
   await db
-    .collection("films")
+    .collection("todoList")
     .find({})
     .skip(startIndex)
     .limit(limit)
-    .toArray((err, films) => {
+    .toArray((err, todo) => {
       if (err) {
         res.status(500).json({ errors: { global: err } });
         return;
       }
-      res.json({ pagination: res.pagination, films });
+
+      res.json({ pagination: res.pagination, todo });
     });
 });
 
 router.get("/:_id", (req, res) => {
   const db = req.app.get("db");
-  db.collection("films").findOne(
+  db.collection("todoList").findOne(
     { _id: new mongodb.ObjectId(req.params._id) },
-    (err, film) => {
+    (err, todo) => {
       if (err) {
         res.status(500).json({ errors: { global: err } });
         return;
       }
 
-      res.json({ film });
+      res.json({ todo });
     }
   );
 });
 
-router.post("/", authenticate, adminOnly, (req, res) => {
+router.post("/", (req, res) => {
   const db = req.app.get("db");
-  const errors = validate(req.body.film);
+  const errors = validate(req.body.todo);
 
   if (Object.keys(errors).length === 0) {
-    db.collection("films").insertOne(req.body.film, (err, r) => {
+    db.collection("todoList").insertOne(req.body.todo, (err, r) => {
       if (err) {
         res.status(500).json({ errors: { global: err } });
         return;
       }
 
-      res.json({ film: r.ops[0] });
+      res.json({ todo: r.ops[0] });
     });
   } else {
     res.status(400).json({ errors });
   }
 });
 
-router.put("/:_id", authenticate, adminOnly, (req, res) => {
+router.put("/featured/:_id", (req, res) => {
   const db = req.app.get("db");
-  const { _id, ...filmData } = req.body.film;
-  const errors = validate(filmData);
+  const { _id, ...todoData } = req.body.todo;
+
+  const errors = validate(todoData);
 
   if (Object.keys(errors).length === 0) {
-    db.collection("films").findOneAndUpdate(
+    db.collection("todoList").findOneAndUpdate(
       { _id: new mongodb.ObjectId(req.params._id) },
-      { $set: filmData },
+      { $set: todoData },
       { returnOriginal: false },
       (err, r) => {
         if (err) {
@@ -90,7 +81,7 @@ router.put("/:_id", authenticate, adminOnly, (req, res) => {
           return;
         }
 
-        res.json({ film: r.value });
+        res.json({ todo: r.value });
       }
     );
   } else {
@@ -98,10 +89,34 @@ router.put("/:_id", authenticate, adminOnly, (req, res) => {
   }
 });
 
-router.delete("/:_id", authenticate, adminOnly, (req, res) => {
+router.put("/:_id", (req, res) => {
+  const db = req.app.get("db");
+  const { _id, ...todoData } = req.body.todo;
+  const errors = validate(todoData);
+
+  if (Object.keys(errors).length === 0) {
+    db.collection("todoList").findOneAndUpdate(
+      { _id: new mongodb.ObjectId(req.params._id) },
+      { $set: todoData },
+      { returnOriginal: false },
+      (err, r) => {
+        if (err) {
+          res.status(500).json({ errors: { global: err } });
+          return;
+        }
+
+        res.json({ todo: r.value });
+      }
+    );
+  } else {
+    res.status(400).json({ errors });
+  }
+});
+
+router.delete("/:_id", (req, res) => {
   const db = req.app.get("db");
 
-  db.collection("films").deleteOne(
+  db.collection("todoList").deleteOne(
     { _id: new mongodb.ObjectId(req.params._id) },
     (err) => {
       if (err) {

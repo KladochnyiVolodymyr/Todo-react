@@ -3,11 +3,11 @@ import api from "./api";
 
 class App extends Component {
   componentDidMount() {
-    api.todo.fetchAll().then(res => console.log(res));
+    api.todoList.fetchAll().then(res => console.log(res));
   }
 
-  addFilm = () =>
-    api.todo.create(
+  addTodo = () =>
+    api.todoList.create(
       {
         'title':'title'
       }
@@ -16,7 +16,7 @@ class App extends Component {
   render() {
     return (
       <h1>Hello from App.jsx
-        <p onClick={this.addFilm}>click</p>
+        <p onClick={this.addTodo}>click</p>
       </h1>
     );
   }

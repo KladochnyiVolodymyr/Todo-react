@@ -5,12 +5,7 @@ import morgan from "morgan";
 import colors from "colors";
 import dotenv from "dotenv";
 import sleep from "./middlewares/sleep";
-
-import users from "./routes/users";
-import auth from "./routes/auth";
-import todo from "./routes/todo";
-import authfilms from "./routes/authfilms";
-import upload from "./routes/upload";
+import todoList from "./routes/todoList";
 
 const app = express();
 
@@ -31,11 +26,7 @@ dotenv.config({
 const isDev = app.get("env") === "development";
 
 // Routes
-app.use("/api/users", users);
-app.use("/api/auth", auth);
-app.use("/api/todo", todo);
-app.use("/api/authfilms", authfilms);
-app.use("/api/upload", upload);
+app.use("/api/todoList", todoList);
 
 const port = process.env.PORT || 4000;
 const mongoUrl = `${process.env.DB_CONNECTION}`;
