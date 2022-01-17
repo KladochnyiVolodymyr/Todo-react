@@ -1,12 +1,11 @@
 import React, {useState} from "react";
-import api from "../api";
+import {useAddItem} from "../context/AppContext";
 
 const NewTodo = () => {
     const [value, setValue] = useState("");
+    
+    const addTodo = useAddItem();
 
-    const addTodo = (newItem) => {
-        api.todoList.create({title: newItem});
-    }
 
     const handleChange = e => setValue(e.target.value);
 

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import api from "./api";
-import './App.css';
 import NewTodo from './components/NewTodo';
 import Todos from './components/Todos';
 const App = () => {
