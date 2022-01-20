@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import {useAddItem} from "../context/AppContext";
+import {generate as id} from "shortid"
+import { useAddItem } from "../context/AppContext";
 
 const NewTodo = () => {
     const [value, setValue] = useState("");
@@ -11,7 +12,7 @@ const NewTodo = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        addTodo(value);
+        addTodo({ title: value, done: false });
         setValue("");
     }
 

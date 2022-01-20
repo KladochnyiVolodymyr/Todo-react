@@ -7,8 +7,22 @@ const initState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case "addItem":
+    case "initItems":
       return { ...state, items: action.todos };
+    case "addItem":
+      let todosArr = state.items;
+      todosArr.push(action.item);
+      return {...state, items: todosArr};
+    case "deleteItem":
+      return {
+        ...state,
+        items: state.items.filter(item => item._id !== action.id)
+      }
+    case "updateItem":
+      return {
+        ...state, 
+        items: state.items.map((item) => item._id === action.item._id ? {...item, ...action.item } : item)
+      }
     default:
       throw Error("this is impossible");
   }
@@ -22,7 +36,7 @@ export function AppContextProvider({ children }) {
 
   useEffect(() => {
     api.todoList.fetchAll().then(todos =>
-      setState({todos, type: 'addItem'})   
+      setState({todos, type: 'initItems'})   
     );
   }, []);
 
@@ -53,10 +67,29 @@ export const useAppDispatchContext = () => {
 
 
 export function useAddItem() {
-  //const dispatch = useAppDispatchContext()
+  const dispatch = useAppDispatchContext();
   return function addItem(item) {
     if (item.length < 1) return
-    api.todoList.create({title: item});
-    //dispatch({type: "addItem", payload: {item}})
+    api.todoList.create(item).then(item => dispatch({type: "addItem", item}));
+  }
+}
+
+export function useDeleteItem() {
+  const dispatch = useAppDispatchContext();
+  return function removeItem(id) {
+    api.todoList.delete(id).then(
+      //Maybe need improvements
+      res => dispatch({type: "deleteItem", id})
+    ); 
+  }
+}
+
+export function useUpdateItem() {
+  const dispatch = useAppDispatchContext();
+  
+  return function updateItem(item, updateItem) {
+    api.todoList.update({...item, ...updateItem}).then(
+      res => dispatch({type: "updateItem", item: res})
+    );
   }
 }
