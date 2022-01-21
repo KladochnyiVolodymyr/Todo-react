@@ -1,4 +1,4 @@
-import { useAppStateContext, useUpdateItem } from "../context/AppContext"
+import { useAppStateContext, useUpdateItem, useFilterItems } from "../context/AppContext"
 
 const ControlsPanel = () => {
 
@@ -15,19 +15,15 @@ const ControlsPanel = () => {
 
     }
 
-    const filterActive = () => {
-        
-    }
-
-    const filterCompleted = () => {
-        
-    }
+    const filterActive = useFilterItems();
+    const filterCompleted = useFilterItems();
+    
     return (
         <div>
             <button onClick={doneAll}>Done All</button>
             <button onClick={filterAll}>All</button>
-            <button onClick={filterActive}>Active</button>
-            <button onClick={filterCompleted}>Completed</button>
+            <button onClick={ () => filterActive(false)}>Active</button>
+            <button onClick={ () => filterCompleted(true)}>Completed</button>
         </div>
     )
 }

@@ -3,6 +3,7 @@ import api from "../api";
 
 const initState = {
   items: [],
+  filteredItems: []
 }
 
 function reducer(state, action) {
@@ -23,6 +24,11 @@ function reducer(state, action) {
         ...state, 
         items: state.items.map((item) => item._id === action.item._id ? {...item, ...action.item } : item)
       }
+    case "filterItems":
+      return {
+        ...state,
+        filteredItems: state.items.filter(item => item.done === action.status)
+      }
     default:
       throw Error("this is impossible");
   }
@@ -32,7 +38,7 @@ export const AppStateContext = createContext();
 export const AppDispatchContext = createContext();
 
 export function AppContextProvider({ children }) {
-  const [state, setState] = useReducer(reducer, initState.items);
+  const [state, setState] = useReducer(reducer, initState);
 
   useEffect(() => {
     api.todoList.fetchAll().then(todos =>
@@ -91,5 +97,13 @@ export function useUpdateItem() {
     api.todoList.update({...item, ...updateItem}).then(
       res => dispatch({type: "updateItem", item: res})
     );
+  }
+}
+
+export function useFilterItems() {
+  const dispatch = useAppDispatchContext();
+  
+  return function filterItems(status) {
+    dispatch({type: "filterItems", status})
   }
 }
