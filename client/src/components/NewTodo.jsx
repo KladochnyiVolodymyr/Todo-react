@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {generate as id} from "shortid"
 import { useAddItem } from "../context/AppContext";
 
 const NewTodo = () => {

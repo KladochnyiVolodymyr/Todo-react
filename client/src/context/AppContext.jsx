@@ -2,7 +2,7 @@ import { createContext, useReducer, useContext, useEffect } from "react";
 import api from "../api";
 
 const initState = {
-  items: []
+  items: [],
 }
 
 function reducer(state, action) {
