@@ -1,9 +1,9 @@
-import { createContext, useReducer, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import api from "../api";
 
 const initState = {
   items: [],
-  filteredItems: []
+  filterType: 'all'
 }
 
 function reducer(state, action) {
@@ -26,8 +26,7 @@ function reducer(state, action) {
       }
     case "filterItems":
       return {
-        ...state,
-        filteredItems: state.items.filter(item => item.done === action.status)
+        ...state, filterType: action.status
       }
     default:
       throw Error("this is impossible");

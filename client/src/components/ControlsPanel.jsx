@@ -11,19 +11,14 @@ const ControlsPanel = () => {
         });
     }
 
-    const filterAll = () => {
+    const filterItems = useFilterItems();
 
-    }
-
-    const filterActive = useFilterItems();
-    const filterCompleted = useFilterItems();
-    
     return (
         <div>
             <button onClick={doneAll}>Done All</button>
-            <button onClick={filterAll}>All</button>
-            <button onClick={ () => filterActive(false)}>Active</button>
-            <button onClick={ () => filterCompleted(true)}>Completed</button>
+            <button onClick={ () => filterItems('all')}>All</button>
+            <button onClick={ () => filterItems('active')}>Active</button>
+            <button onClick={ () => filterItems('completed')}>Completed</button>
         </div>
     )
 }

@@ -3,10 +3,29 @@ import Todo from "./Todo";
 
 const Todos = () => {
 
-    const todos = useAppStateContext().items;
+    const {items, filterType} = useAppStateContext();
+
+    function filterItems() {
+        let filteredArr;
+        switch (filterType) {
+            case 'active':
+                filteredArr = items.filter(item => item.done === false);
+                break;
+            case 'completed':
+                filteredArr = items.filter(item => item.done === true);
+                break;
+            default:
+                filteredArr = items;
+        }
+        return filteredArr;
+    }
+
+    const filteredItems = filterItems();
+
+    //!!!At the first loading the array is empty
 
     const getBody = () => {
-        return todos ? todos.map(item => <Todo key={item._id} item={item}/>) : []
+        return filteredItems ? filteredItems.map(item => <Todo key={item._id} item={item}/>) : []
     }
 
     return (
