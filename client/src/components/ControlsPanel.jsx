@@ -3,8 +3,10 @@ import { useAppStateContext, useUpdateItem, useFilterItems } from "../context/Ap
 const ControlsPanel = () => {
 
     const todos = useAppStateContext().items;
+    
     const updateItem = useUpdateItem();
     const filterItems = useFilterItems();
+    const leftItems = todos.reduce((sum, current) => sum + !current.done, 0);
 
     function setTodosStatus(status) {
         todos.forEach(item => {
@@ -26,6 +28,7 @@ const ControlsPanel = () => {
             <button onClick={ () => filterItems('all')}>All</button>
             <button onClick={ () => filterItems('active')}>Active</button>
             <button onClick={ () => filterItems('completed')}>Completed</button>
+            <p>{leftItems} left items</p>
         </div>
     )
 }
