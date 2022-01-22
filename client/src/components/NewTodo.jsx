@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import { useAddItem } from "../context/AppContext";
 
 const NewTodo = () => {

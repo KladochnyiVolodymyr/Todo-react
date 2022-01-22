@@ -4,18 +4,25 @@ const ControlsPanel = () => {
 
     const todos = useAppStateContext().items;
     const updateItem = useUpdateItem();
+    const filterItems = useFilterItems();
 
-    const doneAll = () => {
+    function setTodosStatus(status) {
         todos.forEach(item => {
-            updateItem(item, {done: true})
+            updateItem(item, {done: status})
         });
     }
 
-    const filterItems = useFilterItems();
+    const switchTodosStatus = () => {
+        if(todos.every(todo => todo.done === true)) {
+            setTodosStatus(false);
+        } else {
+            setTodosStatus(true);
+        }
+    }
 
     return (
         <div>
-            <button onClick={doneAll}>Done All</button>
+            <button onClick={switchTodosStatus}>Switch All</button>
             <button onClick={ () => filterItems('all')}>All</button>
             <button onClick={ () => filterItems('active')}>Active</button>
             <button onClick={ () => filterItems('completed')}>Completed</button>

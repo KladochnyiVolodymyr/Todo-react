@@ -5,7 +5,7 @@ const Todos = () => {
 
     const {items, filterType} = useAppStateContext();
 
-    function filterItems() {
+    function filterItems(items, filterType) {
         let filteredArr;
         switch (filterType) {
             case 'active':
@@ -15,12 +15,12 @@ const Todos = () => {
                 filteredArr = items.filter(item => item.done === true);
                 break;
             default:
-                filteredArr = items;
+                filteredArr = [...items];
         }
         return filteredArr;
     }
 
-    const filteredItems = filterItems();
+    const filteredItems = filterItems(items, filterType);
 
     //!!!At the first loading the array is empty
 
