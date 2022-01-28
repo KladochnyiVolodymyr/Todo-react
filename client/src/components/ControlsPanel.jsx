@@ -33,13 +33,15 @@ const ControlsPanel = () => {
     }
 
     return (
-        <div>
-            <button onClick={switchTodosStatus}>Switch All</button>
-            <button onClick={ () => filterItems('all')}>All</button>
-            <button onClick={ () => filterItems('active')}>Active</button>
-            <button onClick={ () => filterItems('completed')}>Completed</button>
-            <button onClick={clearCompletedItems}>Clear Completed</button>
-            <p>{leftItems} left items</p>
+        <div className="container">
+            <h5>{leftItems} left items</h5>
+            <div className="d-grid gap-2 d-md-flex justify-content-md-center">
+                <button className="btn btn-outline-primary" onClick={switchTodosStatus}>Switch All</button>
+                <button className="btn btn-outline-primary" onClick={ () => filterItems('all')}>All</button>
+                <button className="btn btn-outline-primary" onClick={ () => filterItems('active')}>Active</button>
+                <button className="btn btn-outline-primary" onClick={ () => filterItems('completed')}>Completed</button>
+                <button className="btn btn-danger" onClick={clearCompletedItems}>Clear Completed</button>
+            </div>
         </div>
     )
 }

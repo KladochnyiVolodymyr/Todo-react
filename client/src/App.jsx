@@ -4,7 +4,7 @@ import ControlsPanel from './components/ControlsPanel';
 const App = () => {
 
   return (
-    <div className="app">
+    <div className="app container-fluid">
       <h1>Todo List</h1>
       <NewTodo/>
       <Todos/>

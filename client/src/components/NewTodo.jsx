@@ -16,14 +16,15 @@ const NewTodo = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input 
+        <form onSubmit={handleSubmit} className="input-group mb-3">
+            <input
                 type="text" 
                 placeholder="What needs to be done?" 
                 onChange={handleChange} 
                 value={value}
+                className="form-control"
             />
-            <input type="submit" value="Send"/>
+            <input className="btn btn-primary" type="submit" value="Send"/>
         </form>
     );
 }
