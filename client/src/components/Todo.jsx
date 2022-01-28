@@ -1,27 +1,12 @@
 import {useState, useEffect} from "react";
 import { useDeleteItem, useUpdateItem } from "../context/AppContext"
-
-function useDebounce(value, delay) {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-    useEffect(
-      () => {
-        const handler = setTimeout(() => {
-          setDebouncedValue(value);
-        }, delay);
-        return () => {
-          clearTimeout(handler);
-        };
-      },
-      [value, delay]
-    );
-    return debouncedValue;
-};
+import useDebounce from "../hooks/useDebounce";
 
 const Todo = ({item}) => {
     const [value, setValue] = useState(item.title);
     const removeItem = useDeleteItem();
     const updateItem = useUpdateItem();
-    const useDebounceRes = useDebounce(value, 3000);
+    const useDebounceRes = useDebounce(value, 2000);
 
 
     useEffect(() => {
