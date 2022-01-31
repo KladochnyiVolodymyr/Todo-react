@@ -22,15 +22,13 @@ const Todos = () => {
 
     const filteredItems = filterItems(items, filterType);
 
-    //!!!At the first loading the array is empty
-
-    const getBody = () => {
-        return filteredItems ? filteredItems.map(item => <Todo key={item._id} item={item}/>) : []
+    const buildListItems = () => {
+        return filteredItems.map(item => <Todo key={item._id} item={item}/>);
     }
 
     return (
         <div className="todo-list">
-            {getBody()}
+            {buildListItems()}
         </div>
     )
 }

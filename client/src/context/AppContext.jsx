@@ -13,6 +13,7 @@ function reducer(state, action) {
     case "addItem":
       let todosArr = state.items;
       todosArr.push(action.item);
+      console.log(action.item);
       return {...state, items: todosArr};
     case "deleteItem":
       return {
@@ -71,31 +72,38 @@ export const useAppDispatchContext = () => {
 };
 
 
+/* 
 export function useAddItem() {
   const dispatch = useAppDispatchContext();
   return function addItem(item) {
-    if (item.length < 1) return
     api.todoList.create(item).then(item => dispatch({type: "addItem", item}));
+  }
+} 
+*/
+
+export function useAddItem() {
+  const dispatch = useAppDispatchContext();
+  return async function addItem(item) {
+    let test = await api.todoList.create(item);
+    console.log(test);
+    dispatch({type: "addItem", test})
   }
 }
 
 export function useDeleteItem() {
   const dispatch = useAppDispatchContext();
-  return function removeItem(id) {
-    api.todoList.delete(id).then(
-      //Maybe need improvements
-      res => dispatch({type: "deleteItem", id})
-    ); 
+  return async function removeItem(id) {
+    await api.todoList.delete(id);
+    dispatch({type: "deleteItem", id});
   }
 }
 
 export function useUpdateItem() {
   const dispatch = useAppDispatchContext();
   
-  return function updateItem(item, updateItem) {
-    api.todoList.update({...item, ...updateItem}).then(
-      res => dispatch({type: "updateItem", item: res})
-    );
+  return async function updateItem(item, updateItem) {
+    let updatedItem = await api.todoList.update({...item, ...updateItem});
+    dispatch({type: "updateItem", item: updatedItem});
   }
 }
 
