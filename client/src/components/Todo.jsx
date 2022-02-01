@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDeleteItem, useUpdateItem } from "../context/AppContext";
 import useDebounce from "../hooks/useDebounce";
+import { toast } from "react-toastify";
 
 const Todo = ({ item }) => {
   const [value, setValue] = useState(item.title);
@@ -32,7 +33,16 @@ const Todo = ({ item }) => {
         />
         <label htmlFor={item._id}>{item.value}</label>
       </div>
-      <button className="btn btn-danger" onClick={() => removeItem(item._id)}>
+      <button
+        className="btn btn-danger"
+        onClick={() => {
+          toast.promise(removeItem(item._id), {
+            pending: "Loading...",
+            success: "Operation successful 👌",
+            error: "Something went wrong 🤯",
+          });
+        }}
+      >
         <svg
           fill="#000000"
           xmlns="http://www.w3.org/2000/svg"

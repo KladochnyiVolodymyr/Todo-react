@@ -4,6 +4,7 @@ import App from './App';
 import { AppContextProvider } from "./context/AppContext";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
   <React.StrictMode>

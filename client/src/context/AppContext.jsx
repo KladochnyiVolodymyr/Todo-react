@@ -3,8 +3,9 @@ import api from "../api";
 
 const initState = {
   items: [],
-  filterType: 'all'
-}
+  filterType: "all",
+  loading: true,
+};
 
 function reducer(state, action) {
   switch (action.type) {
@@ -13,22 +14,29 @@ function reducer(state, action) {
     case "addItem":
       let todosArr = state.items;
       todosArr.push(action.item);
-      console.log(action.item);
-      return {...state, items: todosArr};
+      return { ...state, items: todosArr };
     case "deleteItem":
       return {
         ...state,
-        items: state.items.filter(item => item._id !== action.id)
-      }
+        items: state.items.filter((item) => item._id !== action.id),
+      };
     case "updateItem":
       return {
-        ...state, 
-        items: state.items.map((item) => item._id === action.item._id ? {...item, ...action.item } : item)
-      }
+        ...state,
+        items: state.items.map((item) =>
+          item._id === action.item._id ? { ...item, ...action.item } : item
+        ),
+      };
     case "filterItems":
       return {
-        ...state, filterType: action.status
-      }
+        ...state,
+        filterType: action.status,
+      };
+    case "loadingStatus":
+      return {
+        ...state,
+        loading: action.status,
+      };
     default:
       throw Error("this is impossible");
   }
@@ -41,9 +49,10 @@ export function AppContextProvider({ children }) {
   const [state, setState] = useReducer(reducer, initState);
 
   useEffect(() => {
-    api.todoList.fetchAll().then(todos =>
-      setState({todos, type: 'initItems'})   
-    );
+    api.todoList.fetchAll().then((todos) => {
+      setState({ todos, type: "initItems" });
+      setState({ status: false, type: "loadingStatus" });
+    });
   }, []);
 
   return (
@@ -71,46 +80,35 @@ export const useAppDispatchContext = () => {
   return dispatch;
 };
 
-
-/* 
-export function useAddItem() {
-  const dispatch = useAppDispatchContext();
-  return function addItem(item) {
-    api.todoList.create(item).then(item => dispatch({type: "addItem", item}));
-  }
-} 
-*/
-
 export function useAddItem() {
   const dispatch = useAppDispatchContext();
   return async function addItem(item) {
-    let test = await api.todoList.create(item);
-    console.log(test);
-    dispatch({type: "addItem", test})
-  }
+    let addedItem = await api.todoList.create(item);
+    dispatch({ type: "addItem", item: addedItem });
+  };
 }
 
 export function useDeleteItem() {
   const dispatch = useAppDispatchContext();
   return async function removeItem(id) {
     await api.todoList.delete(id);
-    dispatch({type: "deleteItem", id});
-  }
+    dispatch({ type: "deleteItem", id });
+  };
 }
 
 export function useUpdateItem() {
   const dispatch = useAppDispatchContext();
-  
+
   return async function updateItem(item, updateItem) {
-    let updatedItem = await api.todoList.update({...item, ...updateItem});
-    dispatch({type: "updateItem", item: updatedItem});
-  }
+    let updatedItem = await api.todoList.update({ ...item, ...updateItem });
+    dispatch({ type: "updateItem", item: updatedItem });
+  };
 }
 
 export function useFilterItems() {
   const dispatch = useAppDispatchContext();
-  
+
   return function filterItems(status) {
-    dispatch({type: "filterItems", status})
-  }
+    dispatch({ type: "filterItems", status });
+  };
 }

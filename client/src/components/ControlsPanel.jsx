@@ -4,6 +4,7 @@ import {
   useFilterItems,
   useDeleteItem,
 } from "../context/AppContext";
+import { toast } from "react-toastify";
 
 const ControlsPanel = () => {
   const todos = useAppStateContext().items;
@@ -15,13 +16,11 @@ const ControlsPanel = () => {
   const leftItems = todos.reduce((sum, current) => sum + !current.done, 0);
 
   function setAllTodosStatus(status) {
-    return Promise.all(
-      todos.map(item => updateItem(item, { done: status }))
-    );
+    return Promise.all(todos.map((item) => updateItem(item, { done: status })));
   }
 
   const switchTodosStatus = () => {
-    setAllTodosStatus(todos.every(todo => !todo.done));
+    setAllTodosStatus(todos.every((todo) => !todo.done));
   };
 
   //можна винести в context
@@ -29,7 +28,6 @@ const ControlsPanel = () => {
     return Promise.all(
       todos.filter((item) => item.done).map((item) => removeItem(item._id))
     );
-    //тут можна написати then для виклику сповіщення
   };
 
   return (
@@ -57,7 +55,16 @@ const ControlsPanel = () => {
         >
           Completed
         </button>
-        <button className="btn btn-danger" onClick={clearCompletedItems}>
+        <button
+          className="btn btn-danger"
+          onClick={() => {
+            toast.promise(clearCompletedItems, {
+              pending: "Loading...",
+              success: "Operation successful 👌",
+              error: "Something went wrong 🤯",
+            });
+          }}
+        >
           Clear Completed
         </button>
       </div>
