@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 
 const Todo = ({ item }) => {
   const [value, setValue] = useState(item.title);
-  const [editing, setEditing] = useState(false);
   const removeItem = useDeleteItem();
   const updateItem = useUpdateItem();
   const useDebounceRes = useDebounce(value, 2000);
@@ -17,14 +16,9 @@ const Todo = ({ item }) => {
     // Do I need to add item and updateItem in depending?
   }, [useDebounceRes]);
 
-  const handleEditing = () => {
-    setEditing(true);
-    inputEl.current.focus();
-  };
-
   return (
     <div className="todo input-group mb-2">
-      <button className="btn btn-secondary" onClick={handleEditing}>
+      <button className="btn btn-secondary" onClick={() => {inputEl.current.focus()}}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
