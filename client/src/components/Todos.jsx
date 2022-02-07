@@ -5,18 +5,15 @@ const Todos = () => {
   const { items, filterType } = useAppStateContext();
 
   function filterItems(items, filterType) {
-    let filteredArr;
-    switch (filterType) {
-      case "active":
-        filteredArr = items.filter((item) => item.done === false);
-        break;
-      case "completed":
-        filteredArr = items.filter((item) => item.done === true);
-        break;
-      default:
-        filteredArr = [...items];
+    if(filterType === "active") {
+      return items.filter((item) => item.done === false);
     }
-    return filteredArr;
+
+    if(filterType === "completed") {
+      return items.filter((item) => item.done === true);
+    }
+
+    return items;
   }
 
   const filteredItems = filterItems(items, filterType);

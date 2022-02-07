@@ -13,12 +13,12 @@ const App = () => {
       <h1>Todo List</h1>
       {
         !loading ? (
-          <div>
+          <>
             <NewTodo/>
             <Todos/>
             <ControlsPanel/>
             <ToastContainer />
-          </div>
+          </>
         ) : 'Loading...'
       }
     </div>

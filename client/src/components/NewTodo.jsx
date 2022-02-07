@@ -10,8 +10,9 @@ const NewTodo = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(value.trim()) {
-        addTodo({ title: value, done: false });   
+    const trimedValue = value.trim();  
+    if(trimedValue) {
+      addTodo({ title: trimedValue, done: false });   
     }
     setValue("");
   };

@@ -30,6 +30,14 @@ const ControlsPanel = () => {
     );
   };
 
+  const handleClearCompleted = () => {
+    toast.promise(clearCompletedItems, {
+      pending: "Loading...",
+      success: "Operation successful 👌",
+      error: "Something went wrong 🤯",
+    });
+  }
+
   return (
     <div className="container">
       <h5>{leftItems} left items</h5>
@@ -57,13 +65,7 @@ const ControlsPanel = () => {
         </button>
         <button
           className="btn btn-danger"
-          onClick={() => {
-            toast.promise(clearCompletedItems, {
-              pending: "Loading...",
-              success: "Operation successful 👌",
-              error: "Something went wrong 🤯",
-            });
-          }}
+          onClick={handleClearCompleted}
         >
           Clear Completed
         </button>

@@ -10,11 +10,9 @@ const initState = {
 function reducer(state, action) {
   switch (action.type) {
     case "initItems":
-      return { ...state, items: action.todos };
+      return { ...state, loading: false, items: action.todos };
     case "addItem":
-      let todosArr = state.items;
-      todosArr.push(action.item);
-      return { ...state, items: todosArr };
+      return {...state, items: [...state.items, action.item]}
     case "deleteItem":
       return {
         ...state,
@@ -32,11 +30,6 @@ function reducer(state, action) {
         ...state,
         filterType: action.status,
       };
-    case "loadingStatus":
-      return {
-        ...state,
-        loading: action.status,
-      };
     default:
       throw Error("this is impossible");
   }
@@ -51,7 +44,6 @@ export function AppContextProvider({ children }) {
   useEffect(() => {
     api.todoList.fetchAll().then((todos) => {
       setState({ todos, type: "initItems" });
-      setState({ status: false, type: "loadingStatus" });
     });
   }, []);
 

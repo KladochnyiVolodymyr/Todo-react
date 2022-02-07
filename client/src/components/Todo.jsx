@@ -16,19 +16,18 @@ const Todo = ({ item }) => {
     // Do I need to add item and updateItem in depending?
   }, [useDebounceRes]);
 
+  const handleRemoveItem = () => {
+    toast.promise(removeItem(item._id), {
+      pending: "Loading...",
+      success: "Operation successful 👌",
+      error: "Something went wrong 🤯",
+    });
+  }
+  
   return (
     <div className="todo input-group mb-2">
       <button className="btn btn-secondary" onClick={() => {inputEl.current.focus()}}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          className="bi bi-pencil"
-          viewBox="0 0 16 16"
-        >
-          <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
-        </svg>
+        <img src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/24/000000/external-pencil-alignment-and-tools-kiranshastry-lineal-kiranshastry.png" alt="pencil"/>
       </button>
       <input
         type="text"
@@ -50,23 +49,9 @@ const Todo = ({ item }) => {
       </div>
       <button
         className="btn btn-danger"
-        onClick={() => {
-          toast.promise(removeItem(item._id), {
-            pending: "Loading...",
-            success: "Operation successful 👌",
-            error: "Something went wrong 🤯",
-          });
-        }}
+        onClick={handleRemoveItem}
       >
-        <svg
-          fill="#000000"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 48 48"
-          width="15px"
-          height="15px"
-        >
-          <path d="M 39.486328 6.9785156 A 1.50015 1.50015 0 0 0 38.439453 7.4394531 L 24 21.878906 L 9.5605469 7.4394531 A 1.50015 1.50015 0 0 0 8.484375 6.984375 A 1.50015 1.50015 0 0 0 7.4394531 9.5605469 L 21.878906 24 L 7.4394531 38.439453 A 1.50015 1.50015 0 1 0 9.5605469 40.560547 L 24 26.121094 L 38.439453 40.560547 A 1.50015 1.50015 0 1 0 40.560547 38.439453 L 26.121094 24 L 40.560547 9.5605469 A 1.50015 1.50015 0 0 0 39.486328 6.9785156 z" />
-        </svg>
+        <img src="https://img.icons8.com/ios-filled/15/000000/delete-sign--v1.png" alt="close"/>
       </button>
     </div>
   );
