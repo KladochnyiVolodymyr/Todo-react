@@ -5,10 +5,10 @@ import { toast } from "react-toastify";
 
 const Todo = ({ item }) => {
   const [value, setValue] = useState(item.title);
+  const [editing, setEditing] = useState(false);
   const removeItem = useDeleteItem();
   const updateItem = useUpdateItem();
   const useDebounceRes = useDebounce(value, 2000);
-  const inputEl = useRef(null);
 
   useEffect(() => {
     if (!useDebounceRes) return;
@@ -22,21 +22,33 @@ const Todo = ({ item }) => {
       success: "Operation successful 👌",
       error: "Something went wrong 🤯",
     });
-  }
-  
+  };
+
+  const handleSetValue = (e) => {
+    if (e.code === "Enter") {
+      setEditing(false);
+    }
+  };
+
   return (
     <div className="todo input-group mb-2">
-      <button className="btn btn-secondary" onClick={() => {inputEl.current.focus()}}>
-        <img src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/24/000000/external-pencil-alignment-and-tools-kiranshastry-lineal-kiranshastry.png" alt="pencil"/>
-      </button>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        className="form-control"
-        ref={inputEl}
-      />
-      
+      {editing ? (
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyPress={handleSetValue}
+          className="form-control"
+        />
+      ) : (
+        <div
+          className="form-control text-start"
+          onDoubleClick={() => setEditing(true)}
+        >
+          {value}
+        </div>
+      )}
+
       <div className="input-group-text">
         <input
           type="checkbox"
@@ -47,11 +59,11 @@ const Todo = ({ item }) => {
         />
         <label htmlFor={item._id}>{item.value}</label>
       </div>
-      <button
-        className="btn btn-danger"
-        onClick={handleRemoveItem}
-      >
-        <img src="https://img.icons8.com/ios-filled/15/000000/delete-sign--v1.png" alt="close"/>
+      <button className="btn btn-danger" onClick={handleRemoveItem}>
+        <img
+          src="https://img.icons8.com/ios-filled/15/000000/delete-sign--v1.png"
+          alt="close"
+        />
       </button>
     </div>
   );
