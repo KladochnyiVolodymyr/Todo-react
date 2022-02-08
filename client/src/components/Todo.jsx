@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const Todo = ({ item }) => {
   const [value, setValue] = useState(item.title);
-  const [editing, setEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const removeItem = useDeleteItem();
   const updateItem = useUpdateItem();
   const useDebounceRes = useDebounce(value, 2000);
@@ -26,13 +26,13 @@ const Todo = ({ item }) => {
 
   const handleSetValue = (e) => {
     if (e.code === "Enter") {
-      setEditing(false);
+      setIsEditing(false);
     }
   };
 
   return (
     <div className="todo input-group mb-2">
-      {editing ? (
+      {isEditing ? (
         <input
           type="text"
           value={value}
@@ -43,7 +43,7 @@ const Todo = ({ item }) => {
       ) : (
         <div
           className="form-control text-start"
-          onDoubleClick={() => setEditing(true)}
+          onDoubleClick={() => setIsEditing(true)}
         >
           {value}
         </div>
