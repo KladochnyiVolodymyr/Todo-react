@@ -1,8 +1,24 @@
 import { useAppStateContext } from "../context/AppContext";
 import Todo from "./Todo";
+import { initItems } from "../redux/actions";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Todos = () => {
-  const { items, filterType } = useAppStateContext();
+  const { filterType } = useAppStateContext();
+  
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(initItems());
+  }, []);
+
+
+  const items = useSelector(state => {
+    const { initItems } = state;
+    return initItems.items;
+  })
 
   function filterItems(items, filterType) {
     if(filterType === "active") {

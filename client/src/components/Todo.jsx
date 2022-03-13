@@ -1,14 +1,20 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { useDeleteItem, useUpdateItem } from "../context/AppContext";
 import useDebounce from "../hooks/useDebounce";
 import { toast } from "react-toastify";
+import { deleteItem } from "../redux/actions";
 
 const Todo = ({ item }) => {
   const [value, setValue] = useState(item.title);
   const [isEditing, setIsEditing] = useState(false);
-  const removeItem = useDeleteItem();
+  
+  const dispatch = useDispatch();
+
+  //const removeItem = useDeleteItem();
   const updateItem = useUpdateItem();
   const useDebounceRes = useDebounce(value, 2000);
+  
 
   useEffect(() => {
     if (!useDebounceRes) return;
@@ -17,7 +23,7 @@ const Todo = ({ item }) => {
   }, [useDebounceRes]);
 
   const handleRemoveItem = () => {
-    toast.promise(removeItem(item._id), {
+    toast.promise(dispatch(deleteItem(item._id)), {
       pending: "Loading...",
       success: "Operation successful 👌",
       error: "Something went wrong 🤯",
