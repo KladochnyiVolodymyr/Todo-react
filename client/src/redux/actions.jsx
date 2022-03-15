@@ -29,3 +29,10 @@ export function updateItem(item, updateItem) {
     dispatch({ type: UPDATE_ITEM, item: updatedItem });
   }
 }
+
+export function filterItems(status) {
+  console.log(status);
+  return async (dispatch) => {
+    dispatch({ type: FILTER_ITEMS, status });
+  }
+}

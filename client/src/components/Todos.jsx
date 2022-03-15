@@ -5,7 +5,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Todos = () => {
-  const { filterType } = useAppStateContext();
+  //const { filterType } = useAppStateContext();
+
+  const filterType = useSelector(state => {
+    const { filterItems } = state;
+    return filterItems.filterType;
+  })
   
 
   const dispatch = useDispatch();

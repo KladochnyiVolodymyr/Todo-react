@@ -4,17 +4,22 @@ import {
   useFilterItems,
   useDeleteItem,
 } from "../context/AppContext";
-import { useDispatch } from "react-redux";
-import { updateItem, deleteItem } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { updateItem, deleteItem, filterItems} from "../redux/actions";
 import { toast } from "react-toastify";
 
 const ControlsPanel = () => {
-  const todos = useAppStateContext().items;
+  //const todos = useAppStateContext().items;
+
+  const todos = useSelector(state => {
+    const { initItems } = state;
+    return initItems.items;
+  })
 
   const dispatch = useDispatch();
 
   //const updateItem = useUpdateItem();
-  const filterItems = useFilterItems();
+  //const filterItems = useFilterItems();
   //const removeItem = useDeleteItem();
 
   const leftItems = todos.reduce((sum, current) => sum + !current.done, 0);
@@ -51,19 +56,19 @@ const ControlsPanel = () => {
         </button>
         <button
           className="btn btn-outline-primary"
-          onClick={() => filterItems("all")}
+          onClick={() => dispatch(filterItems("all"))}
         >
           All
         </button>
         <button
           className="btn btn-outline-primary"
-          onClick={() => filterItems("active")}
+          onClick={() => dispatch(filterItems("active"))}
         >
           Active
         </button>
         <button
           className="btn btn-outline-primary"
-          onClick={() => filterItems("completed")}
+          onClick={() => dispatch(filterItems("completed"))}
         >
           Completed
         </button>
