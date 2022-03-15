@@ -4,19 +4,23 @@ import {
   useFilterItems,
   useDeleteItem,
 } from "../context/AppContext";
+import { useDispatch } from "react-redux";
+import { updateItem, deleteItem } from "../redux/actions";
 import { toast } from "react-toastify";
 
 const ControlsPanel = () => {
   const todos = useAppStateContext().items;
 
-  const updateItem = useUpdateItem();
+  const dispatch = useDispatch();
+
+  //const updateItem = useUpdateItem();
   const filterItems = useFilterItems();
-  const removeItem = useDeleteItem();
+  //const removeItem = useDeleteItem();
 
   const leftItems = todos.reduce((sum, current) => sum + !current.done, 0);
 
   function setAllTodosStatus(status) {
-    return Promise.all(todos.map((item) => updateItem(item, { done: status })));
+    return Promise.all(todos.map((item) => dispatch(updateItem(item, { done: status }))));
   }
 
   const switchTodosStatus = () => {
@@ -26,7 +30,7 @@ const ControlsPanel = () => {
   //можна винести в context
   const clearCompletedItems = () => {
     return Promise.all(
-      todos.filter((item) => item.done).map((item) => removeItem(item._id))
+      todos.filter((item) => item.done).map((item) => dispatch(deleteItem(item._id)))
     );
   };
 

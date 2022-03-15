@@ -1,4 +1,4 @@
-import { INIT_ITEMS, ADD_ITEM, DELETE_ITEM } from "./types";
+import { INIT_ITEMS, ADD_ITEM, DELETE_ITEM, UPDATE_ITEM, FILTER_ITEMS } from "./types";
 import api from "../api";
 
 export function initItems() {
@@ -21,4 +21,11 @@ export function deleteItem(id) {
     await api.todoList.delete(id);
     dispatch({ type: DELETE_ITEM, id });
   };
+}
+
+export function updateItem(item, updateItem) {
+  return async (dispatch) => {
+    let updatedItem = await api.todoList.update({ ...item, ...updateItem });
+    dispatch({ type: UPDATE_ITEM, item: updatedItem });
+  }
 }

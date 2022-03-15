@@ -1,4 +1,10 @@
-import { INIT_ITEMS, ADD_ITEM, DELETE_ITEM } from "./types";
+import {
+  INIT_ITEMS,
+  ADD_ITEM,
+  DELETE_ITEM,
+  UPDATE_ITEM,
+  FILTER_ITEMS,
+} from "./types";
 
 const initState = {
   items: [],
@@ -14,6 +20,13 @@ export const todoReducer = (state = initState, action) => {
       return {
         ...state,
         items: state.items.filter((item) => item._id !== action.id),
+      };
+    case UPDATE_ITEM:
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item._id === action.item._id ? { ...item, ...action.item } : item
+        ),
       };
     default:
       return state;
