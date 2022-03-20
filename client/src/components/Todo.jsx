@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useDeleteItem, useUpdateItem } from "../context/AppContext";
 import useDebounce from "../hooks/useDebounce";
 import { toast } from "react-toastify";
 import { deleteItem, updateItem } from "../redux/actions";
@@ -10,9 +9,7 @@ const Todo = ({ item }) => {
   const [isEditing, setIsEditing] = useState(false);
   
   const dispatch = useDispatch();
-
-  //const removeItem = useDeleteItem();
-  //const updateItem = useUpdateItem();
+  
   const useDebounceRes = useDebounce(value, 2000);
   
 

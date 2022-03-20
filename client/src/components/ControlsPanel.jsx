@@ -1,15 +1,8 @@
-import {
-  useAppStateContext,
-  useUpdateItem,
-  useFilterItems,
-  useDeleteItem,
-} from "../context/AppContext";
 import { useDispatch, useSelector } from "react-redux";
 import { updateItem, deleteItem, filterItems} from "../redux/actions";
 import { toast } from "react-toastify";
 
 const ControlsPanel = () => {
-  //const todos = useAppStateContext().items;
 
   const todos = useSelector(state => {
     const { initItems } = state;
@@ -17,10 +10,6 @@ const ControlsPanel = () => {
   })
 
   const dispatch = useDispatch();
-
-  //const updateItem = useUpdateItem();
-  //const filterItems = useFilterItems();
-  //const removeItem = useDeleteItem();
 
   const leftItems = todos.reduce((sum, current) => sum + !current.done, 0);
 
@@ -32,7 +21,6 @@ const ControlsPanel = () => {
     setAllTodosStatus(todos.every((todo) => !todo.done));
   };
 
-  //можна винести в context
   const clearCompletedItems = () => {
     return Promise.all(
       todos.filter((item) => item.done).map((item) => dispatch(deleteItem(item._id)))

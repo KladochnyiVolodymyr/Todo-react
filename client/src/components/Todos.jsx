@@ -1,24 +1,13 @@
-import { useAppStateContext } from "../context/AppContext";
 import Todo from "./Todo";
-import { initItems } from "../redux/actions";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useSelector } from "react-redux";
 
 const Todos = () => {
-  //const { filterType } = useAppStateContext();
 
   const filterType = useSelector(state => {
     const { filterItems } = state;
     return filterItems.filterType;
   })
-  
-
-  const dispatch = useDispatch();
-
-  useEffect(()=>{
-    dispatch(initItems());
-  }, []);
-
 
   const items = useSelector(state => {
     const { initItems } = state;

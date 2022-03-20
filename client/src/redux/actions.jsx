@@ -1,10 +1,24 @@
-import { INIT_ITEMS, ADD_ITEM, DELETE_ITEM, UPDATE_ITEM, FILTER_ITEMS } from "./types";
+import { INIT_ITEMS, ADD_ITEM, DELETE_ITEM, UPDATE_ITEM, FILTER_ITEMS, LOADER_DISPLAY_ON, LOADER_DISPLAY_OFF } from "./types";
 import api from "../api";
+
+export function loaderOn() {
+  return {
+    type : LOADER_DISPLAY_ON
+  }
+}
+
+export function loaderOff() {
+  return {
+    type : LOADER_DISPLAY_OFF
+  }
+}
 
 export function initItems() {
   return async (dispatch) => {
+    dispatch(loaderOn());
     api.todoList.fetchAll().then((todos) => {
       dispatch({ type: INIT_ITEMS, todos });
+      dispatch(loaderOff());
     });
   };
 }
@@ -31,7 +45,6 @@ export function updateItem(item, updateItem) {
 }
 
 export function filterItems(status) {
-  console.log(status);
   return async (dispatch) => {
     dispatch({ type: FILTER_ITEMS, status });
   }

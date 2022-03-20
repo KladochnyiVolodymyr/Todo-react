@@ -2,11 +2,20 @@ import NewTodo from './components/NewTodo';
 import Todos from './components/Todos';
 import ControlsPanel from './components/ControlsPanel';
 import { ToastContainer} from 'react-toastify';
-import { useAppStateContext } from "./context/AppContext";
+import { initItems } from "./redux/actions";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const App = () => {
 
-  const { loading } = useAppStateContext();
+  const loading = useSelector(state => state.loader.loading);
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(initItems());
+  }, []);
 
   return (
     <div className="app container-fluid">

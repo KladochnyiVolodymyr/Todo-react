@@ -6,13 +6,13 @@ import {
 } from "./types";
 
 const initState = {
-  items: [],
+  items: []
 };
 
 export const todoReducer = (state = initState, action) => {
   switch (action.type) {
     case INIT_ITEMS:
-      return { ...state, loading: false, items: action.todos };
+      return { ...state, items: action.todos };
     case ADD_ITEM:
       return { ...state, items: [...state.items, action.item] };
     case DELETE_ITEM:

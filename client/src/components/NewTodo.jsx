@@ -1,6 +1,5 @@
 import { useState } from "react";
-//import { useAddItem } from "../context/AppContext";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addedItem } from "../redux/actions";
 
 const NewTodo = () => {
@@ -8,15 +7,12 @@ const NewTodo = () => {
 
   const dispatch = useDispatch();
 
-  //const addTodo = useAddItem();
-
   const handleChange = (e) => setValue(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const trimedValue = value.trim();  
-    if(trimedValue) {
-      //addTodo({ title: trimedValue, done: false });   
+    if(trimedValue) {  
       dispatch(addedItem({ title: trimedValue, done: false }))
     }
     setValue("");
