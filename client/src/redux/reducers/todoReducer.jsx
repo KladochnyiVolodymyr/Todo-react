@@ -3,7 +3,7 @@ import {
   ADD_ITEM,
   DELETE_ITEM,
   UPDATE_ITEM,
-} from "./types";
+} from "../types";
 
 const initState = {
   items: []

@@ -1,4 +1,4 @@
-import { LOADER_DISPLAY_ON, LOADER_DISPLAY_OFF } from "./types";
+import { SET_LOADER } from "../types";
 
 const initState = {
   loading: true,
@@ -6,15 +6,10 @@ const initState = {
 
 export const loaderReducer = (state = initState, action) => {
   switch (action.type) {
-    case LOADER_DISPLAY_ON:
+    case SET_LOADER:
       return {
         ...state,
-        loading: true,
-      };
-    case LOADER_DISPLAY_OFF:
-      return {
-        ...state,
-        loading: false,
+        loading: action.payload,
       };
     default:
       return state;

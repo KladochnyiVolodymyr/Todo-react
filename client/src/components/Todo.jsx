@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useDebounce from "../hooks/useDebounce";
 import { toast } from "react-toastify";
-import { deleteItem, updateItem } from "../redux/actions";
+import { deleteItem, updateItem } from "../redux/actions/todosActions";
 
 const Todo = ({ item }) => {
   const [value, setValue] = useState(item.title);

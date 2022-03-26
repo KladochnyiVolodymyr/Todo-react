@@ -2,7 +2,7 @@ import NewTodo from './components/NewTodo';
 import Todos from './components/Todos';
 import ControlsPanel from './components/ControlsPanel';
 import { ToastContainer} from 'react-toastify';
-import { initItems } from "./redux/actions";
+import { initItems } from "./redux/actions/todosActions";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

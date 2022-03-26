@@ -1,4 +1,4 @@
-import { FILTER_ITEMS } from "./types";
+import { FILTER_ITEMS } from "../types";
 
 const initState = {
   filterType: "all",

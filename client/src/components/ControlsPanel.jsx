@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { updateItem, deleteItem, filterItems} from "../redux/actions";
+import { updateItem, deleteItem } from "../redux/actions/todosActions";
+import { filterItems } from "../redux/actions/filterActions"
 import { toast } from "react-toastify";
 
 const ControlsPanel = () => {
